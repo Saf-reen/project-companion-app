@@ -28,7 +28,7 @@ const FEATURES = [
   { icon: Smartphone, title: "Scans everywhere", text: "Standard formats for Wi-Fi joining and WhatsApp chats on iOS and Android." },
 ];
 
-const FAQ = [
+const FAQ: [string, string][] = [
   ["Do free QR codes expire?", "No. Free codes are static: your link or text is encoded directly into the image, so they keep working forever — even after you reach the free limit."],
   ["How many codes can I make for free?", "Five QR generations in total per browser. Changing colors, previewing and downloading don't count."],
   ["Do I need an account?", "No registration is required to generate and download codes."],

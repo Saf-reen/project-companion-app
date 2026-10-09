@@ -36,7 +36,10 @@ export function QrDownloads({ payload, options, name }: { payload: string; optio
     }
   };
   const svg = async () => {
-    if (!canSvg) return toast("SVG download is a Pro feature.");
+    if (!canSvg) {
+      toast("SVG download is a Pro feature.");
+      return;
+    }
     downloadSvg(await renderSvg(payload, options), `${name}.svg`);
   };
   return (
