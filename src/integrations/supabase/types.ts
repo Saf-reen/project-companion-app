@@ -14,13 +14,95 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          generation_count: number
+          id: string
+          plan: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          generation_count?: number
+          id: string
+          plan?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          generation_count?: number
+          id?: string
+          plan?: string
+        }
+        Relationships: []
+      }
+      qr_codes: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          kind: string
+          label: string | null
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          kind: string
+          label?: string | null
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          label?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      record_generation: {
+        Args: {
+          _content: string
+          _kind: string
+          _label: string
+          _limit: number
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

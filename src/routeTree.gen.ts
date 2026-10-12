@@ -15,6 +15,7 @@ import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GenerateRouteImport } from './routes/generate'
 import { Route as HistoryRouteImport } from './routes/history'
+import { Route as HomeRouteImport } from './routes/home'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -49,6 +50,11 @@ const HistoryRoute = HistoryRouteImport.update({
   path: '/history',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HomeRoute = HomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/generate': typeof GenerateRoute
   '/history': typeof HistoryRoute
+  '/home': typeof HomeRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/generate': typeof GenerateRoute
   '/history': typeof HistoryRoute
+  '/home': typeof HomeRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/generate': typeof GenerateRoute
   '/history': typeof HistoryRoute
+  '/home': typeof HomeRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/generate'
     | '/history'
+    | '/home'
     | '/pricing'
     | '/privacy'
     | '/terms'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/generate'
     | '/history'
+    | '/home'
     | '/pricing'
     | '/privacy'
     | '/terms'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/generate'
     | '/history'
+    | '/home'
     | '/pricing'
     | '/privacy'
     | '/terms'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   GenerateRoute: typeof GenerateRoute
   HistoryRoute: typeof HistoryRoute
+  HomeRoute: typeof HomeRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
@@ -191,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HistoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   GenerateRoute: GenerateRoute,
   HistoryRoute: HistoryRoute,
+  HomeRoute: HomeRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
