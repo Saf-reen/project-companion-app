@@ -6,7 +6,7 @@ import { QrGenerator } from "@/components/qr/QrGenerator";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 
-const TITLE = "QRForge — Free QR Code Generator, No Sign-up";
+const TITLE = "Create a QR Code — QRForge Generator";
 const DESC = "Create scannable URL, text, Wi-Fi and WhatsApp QR codes in seconds. Five free static codes that never expire.";
 
 export const Route = createFileRoute("/home")({
@@ -16,6 +16,8 @@ export const Route = createFileRoute("/home")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: HomePage,
