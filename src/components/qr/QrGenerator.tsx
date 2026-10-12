@@ -1,5 +1,8 @@
 import { AlertCircle, Link2, MessageCircle, Type, Wifi } from "lucide-react";
 import { useState, type FormEvent } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { recordGenerationServer } from "@/lib/account.functions";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,7 +33,9 @@ const TYPES: { id: QrType; label: string; icon: typeof Link2 }[] = [
 const EMPTY: QrFields = { url: "", text: "", ssid: "", password: "", security: "WPA", hidden: false, phone: "", message: "" };
 
 export function QrGenerator() {
-  const { count, plan } = useUsage();
+  const { count, plan, signedIn } = useUsage();
+  const qc = useQueryClient();
+  const recordRemote = useServerFn(recordGenerationServer);
   const [type, setType] = useState<QrType>("url");
   const [fields, setFields] = useState<QrFields>(EMPTY);
   const [options, setOptions] = useState<QrOptions>(DEFAULT_QR_OPTIONS);
@@ -59,7 +64,18 @@ export function QrGenerator() {
       setBusy(false);
       return setError("This content is too long to fit in a QR code. Try shortening it.");
     }
-    recordGeneration();
+    if (signedIn) {
+      try {
+        const r = await recordRemote({ data: { kind: type, content: result.payload, label: result.label } });
+        await qc.invalidateQueries({ queryKey: ["account"] });
+        if (!r.ok) { setBusy(false); return setBlocked(true); }
+      } catch (err) {
+        setBusy(false);
+        return setError(err instanceof Error ? err.message : "Could not save. Try again.");
+      }
+    } else {
+      recordGeneration();
+    }
     const item: GeneratedQr = {
       id: makeId(),
       type,

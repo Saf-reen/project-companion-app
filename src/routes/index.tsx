@@ -1,13 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Infinity as InfinityIcon, Lock, Palette, ShieldCheck, Smartphone, Zap } from "lucide-react";
-import { AdSlot } from "@/components/ads/AdSlot";
-import { ComparisonTable } from "@/components/pricing/Pricing";
-import { QrGenerator } from "@/components/qr/QrGenerator";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ArrowRight, Infinity as InfinityIcon, Palette, ShieldCheck, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { MOCK_PRICES, FREE_GENERATION_LIMIT } from "@/config/config";
 
-const TITLE = "QRForge — Free QR Code Generator, No Sign-up";
-const DESC = "Create scannable URL, text, Wi-Fi and WhatsApp QR codes in seconds. Five free static codes that never expire.";
+const TITLE = "QRForge — QR Codes That Never Expire";
+const DESC = "Make scannable QR codes for links, Wi-Fi, text and WhatsApp in seconds. Free to start, no sign-up needed.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,86 +13,83 @@ export const Route = createFileRoute("/")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: HomePage,
+  component: LandingPage,
 });
 
-const FEATURES = [
-  { icon: Zap, title: "Instant & private", text: "Codes are generated in your browser. Nothing you type is uploaded." },
-  { icon: InfinityIcon, title: "Never expire", text: "Static codes encode your content directly — no redirects that can break." },
-  { icon: Palette, title: "Make it yours", text: "Pick colors, size, margin and error correction with a live preview." },
-  { icon: Smartphone, title: "Scans everywhere", text: "Standard formats for Wi-Fi joining and WhatsApp chats on iOS and Android." },
+const BENEFITS = [
+  { icon: Zap, title: "Ready in seconds", text: "Paste a link, pick a style, download." },
+  { icon: InfinityIcon, title: "Never expire", text: "Free codes hold your content directly." },
+  { icon: Palette, title: "Your colors", text: "Match your brand with a live preview." },
+  { icon: ShieldCheck, title: "Private", text: "No tracking redirects on free codes." },
 ];
 
-const FAQ: [string, string][] = [
-  ["Do free QR codes expire?", "No. Free codes are static: your link or text is encoded directly into the image, so they keep working forever — even after you reach the free limit."],
-  ["How many codes can I make for free?", "Five QR generations in total per browser. Changing colors, previewing and downloading don't count."],
-  ["Do I need an account?", "No registration is required to generate and download codes."],
-  ["What does Pro add?", "Unlimited generations, dynamic codes with editable destinations, history, scan analytics, SVG export, branding and bulk creation. Pro is currently a demo."],
-  ["Is the free limit enforced on a server?", "Not yet. The counter is stored in your browser, so clearing site data resets it. Server-side enforcement will come with accounts."],
-];
+const STEPS = ["Choose a type — link, text, Wi-Fi or WhatsApp", "Fill it in and customize the look", "Download and print or share"];
 
-function HomePage() {
+function MockQr() {
+  // Decorative pattern, deterministic so server and browser match.
+  const cells = Array.from({ length: 121 }, (_, i) => ((i * 37) % 7 < 3 || i % 11 === 0 ? 1 : 0));
   return (
-    <main>
-      <section className="border-b bg-surface">
-        <div className="mx-auto max-w-6xl px-4 pb-12 pt-12 sm:pt-16">
-          <div className="mb-8 max-w-2xl">
-            <p className="mb-3 inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 text-xs font-medium">
-              <ShieldCheck className="h-3.5 w-3.5 text-primary" /> No sign-up · Static codes never expire
-            </p>
-            <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl">QR codes that just work. Made in seconds.</h1>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Turn links, text, Wi-Fi details or a WhatsApp chat into a scannable code. Your first five are free.
-            </p>
+    <div className="grid aspect-square w-full max-w-xs grid-cols-11 gap-1 rounded-3xl border bg-card p-6 shadow-xl">
+      {cells.map((c, i) => <span key={i} className={c ? "rounded-sm bg-foreground" : ""} />)}
+    </div>
+  );
+}
+
+function LandingPage() {
+  return (
+    <div>
+      <section className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 md:grid-cols-2 md:py-28">
+        <div className="space-y-6">
+          <p className="text-sm font-semibold uppercase tracking-widest text-primary">Free QR code maker</p>
+          <h1 className="font-display text-5xl font-bold leading-tight md:text-6xl">QR codes that just work. Forever.</h1>
+          <p className="max-w-md text-lg text-muted-foreground">
+            Create {FREE_GENERATION_LIMIT} free codes with no sign-up. Links, Wi-Fi, text and WhatsApp — scannable on every phone.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild size="lg"><Link to="/home">Start creating <ArrowRight className="ml-1 h-4 w-4" /></Link></Button>
+            <Button asChild size="lg" variant="outline"><Link to="/pricing">See pricing</Link></Button>
           </div>
-          <QrGenerator />
+        </div>
+        <div className="flex justify-center"><MockQr /></div>
+      </section>
+
+      <section className="border-y bg-secondary/40">
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4">
+          {BENEFITS.map((b) => (
+            <div key={b.title} className="space-y-2">
+              <b.icon className="h-6 w-6 text-primary" />
+              <h3 className="font-semibold">{b.title}</h3>
+              <p className="text-sm text-muted-foreground">{b.text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-4">
-        <AdSlot slot="home-below-generator" className="my-10" />
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <h2 className="mb-8 font-display text-3xl font-bold">How it works</h2>
+        <ol className="grid gap-6 md:grid-cols-3">
+          {STEPS.map((s, i) => (
+            <li key={s} className="rounded-2xl border bg-card p-6">
+              <span className="font-display text-4xl font-bold text-primary">{i + 1}</span>
+              <p className="mt-3 font-medium">{s}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
 
-        <section className="py-10">
-          <h2 className="text-3xl font-bold">Why QRForge</h2>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {FEATURES.map((f) => (
-              <div key={f.title} className="rounded-xl border bg-card p-5">
-                <f.icon className="h-6 w-6 text-primary" />
-                <h3 className="mt-3 font-semibold">{f.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{f.text}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="py-10">
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 className="text-3xl font-bold">Free vs Pro</h2>
-              <p className="text-muted-foreground">Start free. Upgrade when you need more.</p>
-            </div>
-            <Button asChild variant="outline"><Link to="/pricing"><Lock /> See Pro pricing</Link></Button>
-          </div>
-          <ComparisonTable />
-        </section>
-
-        <section className="grid gap-8 py-10 lg:grid-cols-[1fr_300px]">
+      <section className="mx-auto max-w-6xl px-4 pb-20">
+        <div className="flex flex-col items-start justify-between gap-6 rounded-3xl bg-primary p-10 text-primary-foreground md:flex-row md:items-center">
           <div>
-            <h2 className="text-3xl font-bold">Frequently asked questions</h2>
-            <Accordion type="single" collapsible className="mt-4">
-              {FAQ.map(([q, a]) => (
-                <AccordionItem key={q} value={q}>
-                  <AccordionTrigger className="text-left">{q}</AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground">{a}</AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <h2 className="font-display text-3xl font-bold">Need more? Go Pro.</h2>
+            <p className="mt-2 opacity-90">Unlimited codes, history and scan analytics from ${MOCK_PRICES.monthly}/month.</p>
           </div>
-          <AdSlot slot="home-faq-sidebar" className="min-h-64" />
-        </section>
-      </div>
-    </main>
+          <Button asChild size="lg" variant="secondary"><Link to="/home">Try it free</Link></Button>
+        </div>
+      </section>
+    </div>
   );
 }

@@ -5,12 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import { useUsage } from "@/hooks/use-app-state";
 
 const NAV = [
-  { to: "/", label: "Home" },
+  { to: "/home", label: "Home" },
   { to: "/generate", label: "Generator" },
   { to: "/pricing", label: "Pricing" },
   { to: "/history", label: "History" },
   { to: "/analytics", label: "Analytics" },
   { to: "/account", label: "Account" },
+  { to: "/login", label: "Sign in" },
 ] as const;
 
 export function Logo() {
