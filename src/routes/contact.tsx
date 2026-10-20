@@ -25,8 +25,9 @@ function ContactPage() {
     const f = new FormData(e.currentTarget);
     try {
       const r = await send({ data: { name: String(f.get("name")), email: String(f.get("email")), message: String(f.get("message")) } });
-      if (!r.ok) return toast.error("Could not send. Please try again.");
+      if (!r.ok) { toast.error("Could not send. Please try again."); return; }
       setSent(true);
+      return;
     } catch {
       toast.error("Please check your details and try again.");
     }

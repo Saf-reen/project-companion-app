@@ -40,7 +40,7 @@ export function SiteHeader() {
             <Link
               key={n.to}
               to={n.to}
-              activeOptions={{ exact: n.to === "/" }}
+              activeOptions={{ exact: n.to === "/home" }}
               className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               activeProps={{ className: "text-foreground bg-secondary" }}
             >
@@ -60,7 +60,7 @@ export function SiteHeader() {
               to={n.to}
               onClick={() => setOpen(false)}
               className="block rounded-md px-3 py-2 text-sm font-medium"
-              activeOptions={{ exact: n.to === "/" }}
+              activeOptions={{ exact: n.to === "/home" }}
               activeProps={{ className: "bg-secondary" }}
             >
               {n.label}
