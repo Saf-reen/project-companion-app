@@ -1,24 +1,31 @@
 # Project Companion App
 
-Build the app described in the attached spec.
+A QR code generator with a free guest mode and a signed-in Pro plan.
 
-This project was built with [Lovable](https://lovable.dev).
+This repo is split into two standalone projects:
 
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/e1445349-38f2-475b-b77d-f6cbcf5c4b31).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- [`frontend/`](frontend/) — Vite + React + TanStack Router single-page app.
+- [`backend/`](backend/) — Node.js + Express API backed by Neon Postgres (via Drizzle ORM).
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+You need Node.js and npm, and a [Neon](https://neon.tech) Postgres database.
+
+### Backend
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+cd backend
+npm install
+cp .env.example .env   # fill in DATABASE_URL (your Neon connection string) and JWT_SECRET
+npm run db:push        # creates the tables in your Neon database
+npm run dev            # starts the API on http://localhost:4000
+```
+
+### Frontend
+
+```sh
+cd frontend
+npm install
+cp .env.example .env   # VITE_API_URL defaults to http://localhost:4000
+npm run dev            # starts the SPA on http://localhost:5173
 ```
