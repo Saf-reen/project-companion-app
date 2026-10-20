@@ -29,21 +29,23 @@ function LoginPage() {
     if (mode === "up") {
       const { data, error } = await supabase.auth.signUp({ email, password: pw, options: { emailRedirectTo: `${window.location.origin}/home` } });
       setBusy(false);
-      if (error) return toast.error(error.message);
-      if (!data.session) return toast.success("Check your email to confirm your account.");
+      if (error) { toast.error(error.message); return; }
+      if (!data.session) { toast.success("Check your email to confirm your account."); return; }
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
       setBusy(false);
-      if (error) return toast.error(error.message);
+      if (error) { toast.error(error.message); return; }
     }
     nav({ to: "/home" });
+    return;
   }
 
   async function google() {
     const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
-    if (r.error) return toast.error("Google sign-in failed");
+    if (r.error) { toast.error("Google sign-in failed"); return; }
     if (r.redirected) return;
     nav({ to: "/home" });
+    return;
   }
 
   return (
